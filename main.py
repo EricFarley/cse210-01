@@ -7,18 +7,21 @@
 
 import sys
 
-# All available turns in the game.
 USER_TURNS = ['x', 'o', 'x', 'o', 'x', 'o', 'x', 'o', 'x']
+""" All available turns in the game. """
 
 VALID_INPUTS = [1, 2, 3, 4, 5, 6, 7, 8, 9]
 
 POSSIBLE_WINS = [[1, 2, 3], [4, 5, 6], [7, 8, 9], [1, 4, 7], [2, 5, 8], [3, 6, 9], [1, 5, 9], [3, 5, 7]]
 
-# Initially, all the squares are empty.
 taken_squares = [1, 2, 3, 4, 5, 6, 7, 8, 9]
+""" Initially, all the squares are empty. """
 
 
 def print_grid(values: list):
+    """
+    Prints the grid with the values in it.
+    """
     print()
     print(f'{values[0]} | {values[1]} | {values[2]}')
     print('--+---+--')
@@ -35,14 +38,18 @@ def set_choice(option: int, user: str):
 
 
 def is_game_over(user: str):
+    """
+    Checks if the game should end, based on the possible winning options.\n
+    If none of the options are met, the game ends in a draw.
+    """
     user_squares = []
     for i, square in enumerate(taken_squares, 1):
         if square == user:
             user_squares.append(i)
     
     for wins in POSSIBLE_WINS:
-        # First iterate through the possible win spots and assign them in 'item'
-        # Then find out if they exist in the options the user selected already inside 'user_squares'
+        # First iterate through the possible win spots and assign them in 'item' variable
+        # Then, find out if ALL of the options the user selected are inside the winning options.
         if all(item in user_squares for item in wins):
             print(f'"{user}" won the game. Congrats!')
             return True
@@ -50,11 +57,21 @@ def is_game_over(user: str):
     if not any(item in taken_squares for item in VALID_INPUTS):
         print('Game ended in a draw. Well played!')
 
+
 def is_option_available(option: int) -> bool:
+    """
+    Checks if option the user entered is still available.
+    Return: Boolean
+    """
     return True if option in taken_squares else False
 
 
 def handle_user_input(user: str) -> int:
+    """
+    Handles user interaction with the game.\n
+    Makes sure that the input is valid, according to the rules.\n
+    Return: the number selected by the user.
+    """
     user_input_validated: bool = False
     while user_input_validated == False:
         try:
